@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Arcade Room</title>
+<style>
+:root{
+  --bg:#f5f7fb; --panel:#fff; --ink:#121722; --muted:#7b8494;
+  --line:#e7eaf0; --accent:#5865f2; --accent2:#7c5cff;
+  --shadow:0 18px 50px rgba(25,32,50,.08);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--ink)}
+body{overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+.app{max-width:1120px;margin:auto;padding:22px 20px 44px}
+
+/* ===== LIVE BANNER ===== */
+.live-banner{
+  margin-top:18px;
+  border-radius:26px;
+  overflow:hidden;
+  position:relative;
+  box-shadow:var(--shadow);
+  background:#121722;
+  aspect-ratio:16/7;
+  min-height:200px;
+  max-height:340px;
+}
+.live-banner video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.live-banner::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.15) 0%,rgba(0,0,0,.65) 100%);
+  pointer-events:none;
+}
+.live-tag{
+  position:absolute;
+  top:16px;left:16px;
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  background:linear-gradient(135deg,#ff3d6e,#ff6a3d);
+  color:#fff;
+  padding:7px 14px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.12em;
+  z-index:2;
+  box-shadow:0 8px 24px rgba(255,61,110,.5);
+}
+.live-tag .live-dot{
+  width:7px;height:7px;
+  background:#fff;
+  border-radius:50%;
+  animation:blink 1.4s infinite;
+}
+@keyframes blink{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.35;transform:scale(.8)}
+}
+.live-title{
+  position:absolute;
+  left:22px;bottom:20px;
+  color:#fff;
+  z-index:2;
+}
+.live-title h2{
+  margin:0 0 4px;
+  font-size:clamp(22px,3.5vw,32px);
+  letter-spacing:-.04em;
+  font-weight:900;
+  text-shadow:0 4px 20px rgba(0,0,0,.6);
+}
+.live-title p{
+  margin:0;
+  font-size:12px;
+  color:#d5daea;
+  text-shadow:0 2px 8px rgba(0,0,0,.7);
+}
+
+/* ===== NAV ===== */
+.nav{height:58px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px;font-weight:850;letter-spacing:-.03em}
+.brand-mark{width:34px;height:34px;border-radius:11px;background:#121722;color:#fff;display:grid;place-items:center;font-size:15px}
+.nav-pill{font-size:12px;color:#596274;background:#fff;border:1px solid var(--line);padding:9px 13px;border-radius:999px}
+.hero{margin-top:42px;display:grid;grid-template-columns:1.2fr .8fr;gap:26px;align-items:stretch}
+.hero-copy{padding:18px 4px}
+.eyebrow{display:inline-flex;align-items:center;gap:7px;color:var(--accent);font-size:11px;font-weight:850;letter-spacing:.14em;text-transform:uppercase}
+.dot{width:7px;height:7px;border-radius:50%;background:#48c78e;box-shadow:0 0 0 5px rgba(72,199,142,.12)}
+h1{font-size:clamp(42px,7vw,76px);line-height:.94;letter-spacing:-.065em;margin:18px 0 20px;max-width:720px}
+.hero-copy p{max-width:560px;color:var(--muted);font-size:15px;line-height:1.7;margin:0}
+.hero-note{margin-top:25px;display:flex;gap:9px;flex-wrap:wrap}
+.note{background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px 12px;color:#626c7d;font-size:11px}
+.feature{min-height:300px;border-radius:28px;background:linear-gradient(145deg,#151a29,#343c5b);box-shadow:var(--shadow);padding:24px;display:flex;flex-direction:column;justify-content:space-between;color:#fff;position:relative;overflow:hidden}
+.feature:before{content:"";position:absolute;width:240px;height:240px;border-radius:50%;right:-80px;top:-90px;background:rgba(124,92,255,.4);filter:blur(5px)}
+.feature:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;left:-90px;bottom:-100px;background:rgba(88,101,242,.35)}
+.feature>*{position:relative;z-index:1}
+.feature-top{display:flex;justify-content:space-between;align-items:center}
+.live{font-size:10px;font-weight:800;letter-spacing:.12em;background:rgba(255,255,255,.1);padding:8px 10px;border-radius:999px}
+.live i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#55e49d;margin-right:6px}
+.feature h2{font-size:34px;letter-spacing:-.05em;margin:0 0 8px}
+.feature p{font-size:12px;color:#c5cada;margin:0;line-height:1.6}
+.section{margin-top:66px}
+.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:18px}
+.section-head h3{font-size:23px;letter-spacing:-.04em;margin:0}
+.section-head span{font-size:11px;color:var(--muted)}
+.games{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 10px 35px rgba(25,32,50,.045);transition:.25s ease}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.art{height:190px;position:relative;overflow:hidden}
+.art.one{background:radial-gradient(circle at 72% 25%,#ff9dc2 0 7%,transparent 8%),linear-gradient(135deg,#ffd9e8,#9f7aea 55%,#24233c)}
+.art.two{background:radial-gradient(circle at 28% 30%,#d8ff75 0 6%,transparent 7%),linear-gradient(135deg,#dce8ff,#6e7bf4 52%,#202738)}
+.art .shape{position:absolute;width:150px;height:150px;border-radius:35% 65% 58% 42%;right:16%;bottom:-45px;background:rgba(255,255,255,.2);transform:rotate(20deg)}
+.art .label{position:absolute;left:16px;top:16px;color:#fff;background:rgba(0,0,0,.2);backdrop-filter:blur(8px);padding:7px 10px;border-radius:999px;font-size:10px;font-weight:800}
+.card-body{padding:18px}
+.card-top{display:flex;align-items:start;justify-content:space-between;gap:10px}
+.card h4{margin:0;font-size:19px;letter-spacing:-.03em}
+.status{font-size:9px;font-weight:850;color:#2b9a69;background:#eafaf2;border:1px solid #d3f3e2;border-radius:999px;padding:6px 8px;white-space:nowrap}
+.card p{font-size:12px;color:var(--muted);line-height:1.55;margin:9px 0 16px;min-height:38px}
+.meta{display:flex;align-items:center;justify-content:space-between}
+.players{font-size:10px;color:#727c8c}
+.play{border:0;background:#121722;color:#fff;border-radius:11px;padding:10px 14px;font-size:11px;font-weight:800;cursor:pointer;transition:.2s}
+.play:hover{background:var(--accent);transform:translateY(-1px)}
+.footer{margin-top:55px;text-align:center;color:#9aa2b0;font-size:10px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#121722;color:#fff;padding:11px 14px;border-radius:12px;font-size:11px;transition:.25s;z-index:20}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:760px){
+  .app{padding:15px 15px 35px}.hero{grid-template-columns:1fr;margin-top:28px}.hero-copy{padding:5px 2px}
+  .feature{min-height:240px}.games{grid-template-columns:1fr}.art{height:170px}
+  .live-banner{aspect-ratio:4/3;min-height:200px;max-height:280px}
+  .live-title h2{font-size:22px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <nav class="nav">
+    <div class="brand"><span class="brand-mark">AR</span><span>Arcade Room</span></div>
+    <span class="nav-pill">2 games available</span>
+  </nav>
+
+  <main>
+    <!-- ===== LIVE BANNER ===== -->
+    <div class="live-banner">
+      <video autoplay loop muted playsinline>
+        <source src="https://files.catbox.moe/nliwlb.mp4" type="video/mp4">
+      </video>
+      <div class="live-tag">
+        <span class="live-dot"></span>
+        LIVE NOW
+      </div>
+      <div class="live-title">
+        <h2>Arcade Room</h2>
+        <p>2 games available right now</p>
+      </div>
+    </div>
+
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow"><i class="dot"></i> Private game room</span>
+        <h1>Pick a game.<br>Jump straight in.</h1>
+        <p>A clean little game hub for two experiences. No complicated menus — choose a game and launch its private server.</p>
+        <div class="hero-note">
+          <span class="note">Instant launch</span>
+          <span class="note">Mobile friendly</span>
+          <span class="note">Private server</span>
+        </div>
+      </div>
+      <aside class="feature">
+        <div class="feature-top"><span class="live"><i></i>ROOM ONLINE</span><span style="font-size:11px;color:#c5cada">24 players</span></div>
+        <div><div style="font-size:11px;color:#bfc7dc;margin-bottom:9px">TODAY'S FEATURE</div><h2>Catgirl Obby</h2><p>Jump in, explore the obby and see what is waiting at the end.</p></div>
+      </aside>
+    </section>
+
+    <section class="section">
+      <div class="section-head"><h3>Choose your game</h3><span>2 experiences</span></div>
+      <div class="games">
+        <article class="card">
+          <div class="art one"><span class="label">FEATURED</span><span class="shape"></span></div>
+          <div class="card-body">
+            <div class="card-top"><h4>HOT! Catgirl Obby</h4><span class="status">ONLINE</span></div>
+            <p>Catgirl Obby — surprise at the end. Launch directly into the private server.</p>
+            <div class="meta"><span class="players">17–28 players online</span><button class="play" onclick="launch(0)">Play now →</button></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="art two"><span class="label">NEW ROOM</span><span class="shape"></span></div>
+          <div class="card-body">
+            <div class="card-top"><h4>Titles: Another Infection Game</h4><span class="status">ONLINE</span></div>
+            <p>A second game room with a different style. Enter the private server in one tap.</p>
+            <div class="meta"><span class="players">19–27 players online</span><button class="play" onclick="launch(1)">Play now →</button></div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">Arcade Room · simple game launcher</footer>
+</div>
+<div class="toast" id="toast">Opening game…</div>
+<script>
+const GAMES=[
+ 'https://www.roblox.com.bn/games/80576062127494/HOT-Catgirl-Obby-Surprise-at-the-end-?privateServerLinkCode=98336790304500780135367014877492',
+ 'https://www.roblox.com.bn/games/134922313437159/Titles-Another-Infection-Game?privateServerLinkCode=98336790304500780135367014877492'
+];
+function launch(i){
+ const t=document.getElementById('toast');
+ t.classList.add('show');
+ setTimeout(()=>location.href=GAMES[i],220);
+}
+</script>
+</body>
+</html>
